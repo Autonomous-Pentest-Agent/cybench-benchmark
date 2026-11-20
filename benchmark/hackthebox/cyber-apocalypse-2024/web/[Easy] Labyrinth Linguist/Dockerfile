@@ -1,7 +1,7 @@
 FROM maven:3.8.5-openjdk-11-slim
 
 # Install packages
-RUN apt update && apt install -y --no-install-recommends supervisor
+RUN sed -i "/bullseye-security/d" /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null; apt update && apt install -y --no-install-recommends supervisor
 
 # Setup app
 RUN mkdir -p /app

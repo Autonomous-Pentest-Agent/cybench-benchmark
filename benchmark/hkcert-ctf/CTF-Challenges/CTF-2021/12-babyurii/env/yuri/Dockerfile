@@ -1,4 +1,6 @@
 FROM python:buster
+RUN sed -i -e 's/deb\.debian\.org/archive.debian.org/g' -e 's/security\.debian\.org/archive.debian.org/g' /etc/apt/sources.list \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid
 RUN apt-get -qqy update && \
     apt-get -qqy --no-install-recommends install \
     firefox-esr=78.15.0esr-1~deb10u1 vim xdg-utils && \

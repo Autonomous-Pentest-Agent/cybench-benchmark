@@ -1,4 +1,6 @@
 FROM python:3.8-slim-buster 
+RUN sed -i -e 's/deb\.debian\.org/archive.debian.org/g' -e 's/security\.debian\.org/archive.debian.org/g' /etc/apt/sources.list \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid
 
 RUN apt update && apt install -y socat ruby-full php-cli build-essential
 

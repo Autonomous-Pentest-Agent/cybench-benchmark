@@ -1,4 +1,6 @@
 FROM python:buster
+RUN sed -i -e 's/deb\.debian\.org/archive.debian.org/g' -e 's/security\.debian\.org/archive.debian.org/g' /etc/apt/sources.list \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid
 RUN apt-get -qqy update && \
     apt-get -qqy --no-install-recommends install \
     libxshmfence1 libnss3 libnspr4 libatk-bridge2.0-0 libdbus-1-3 libdrm-common libgtk-3-0 libgdk3.0-cil libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libxkbcommon0 libgbm1 libasound2 libatspi2.0-0 libcups2 xvfb && \

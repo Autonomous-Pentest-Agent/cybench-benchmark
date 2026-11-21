@@ -51,7 +51,7 @@ echo "docker run --name ${container_name} --network ${network_name} --rm -v $(pw
 
 docker run \
 	--name "${container_name}" \
-	-it \
+	-i \
 	--pull always \
 	--privileged \
 	--network "${network_name}" \

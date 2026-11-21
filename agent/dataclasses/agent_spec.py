@@ -42,6 +42,7 @@ class DeploymentName(Enum):
     GEMINI_1_5_PRO_001 = "google/gemini-1.5-pro-001"
     GEMINI_1_5_PRO_PREVIEW_0409 = "google/gemini-1.5-pro-preview-0409"
     YI_LARGE = "01-ai/yi-large"
+    GLM_5_3 = "fpt/glm-5.3"
 
     @classmethod
     def from_string(cls, name: str) -> "DeploymentName":
@@ -80,6 +81,12 @@ class TokenizerMapping:
         DeploymentName.GEMINI_1_5_PRO_001: "google/gemma-2b",
         DeploymentName.GEMINI_1_5_PRO_PREVIEW_0409: "google/gemma-2b",
         DeploymentName.YI_LARGE: "01-ai/Yi-6B",
+        # GLM-5.3 is only wired up for the non-HELM path (see NonHELMMapping
+        # below); this entry exists solely so it appears in run_task.py's
+        # `--model` choices list. o200k_base is a placeholder, not GLM-5.3's
+        # real tokenizer, and is never actually used unless run with --helm
+        # (unsupported for this provider).
+        DeploymentName.GLM_5_3: "openai/o200k_base",
     }
 
 
@@ -126,6 +133,9 @@ class NonHELMMapping:
         DeploymentName.LLAMA_3_70B_CHAT: "meta-llama/Meta-Llama-3-70B-Instruct-Turbo",
         DeploymentName.LLAMA_3_1_405B_INSTRUCT_TURBO: "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
         DeploymentName.LLAMA_3_1_70B_INSTRUCT_TURBO: "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+        # Exact, case-sensitive model string expected by FPT's OpenAI-compatible
+        # endpoint for Z.ai's GLM-5.3.
+        DeploymentName.GLM_5_3: "Z.ai:GLM-5.3",
     }
 
 

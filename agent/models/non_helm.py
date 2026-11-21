@@ -75,6 +75,22 @@ class OpenAIModels(ModelProvider):
         return len(encoding.encode(input))
 
 
+class FPTModels(OpenAIModels):
+    """
+    GLM-5.3 (Z.ai), served through FPT's OpenAI-compatible chat-completions
+    endpoint. Reuses OpenAIModels' request/response/tokenizer logic as-is;
+    only the client needs a different base_url. `_api_key()` on the base
+    class derives the env var name from the class name, so this resolves to
+    FPT_API_KEY.
+    """
+
+    def __init__(self):
+        self.client = self.create_client()
+
+    def create_client(self) -> OpenAI:
+        return OpenAI(api_key=self._api_key(), base_url="https://token-api.fpt.ai/v1")
+
+
 class AzureOpenAIModels(OpenAIModels):
     def __init__(self):
         self.client = self.create_client()
@@ -275,6 +291,7 @@ PROVIDERS: Dict[str, Type[ModelProvider]] = {
     "anthropic": AnthropicModels,
     "google": GoogleModels,
     "together": TogetherModels,
+    "fpt": FPTModels,
 }
 
 
